@@ -24,6 +24,42 @@ describe Application do
     end
   end
 
+  context "GET /albums/1" do
+    it "contains a h1 title" do
+      response = get('/albums/1')
+      expected_response = "<h1>Doolittle</h1>"
+      expect(response.status).to eq 200
+      expect(response.body).to include expected_response
+    end
+    xit "contains paragraph" do
+      response = get('/albums/1')
+      expected_response = "<p>
+      Release year: 1989
+      Artist: Pixies
+    </p>"
+    expect(response.status).to eq 200
+    expect(response.body).to include expected_response
+    end
+  end
+
+  context "GET /albums/2" do
+    xit "contains a h1 title" do
+      response = get('/albums/2')
+      expected_response = "<h1>Surfer Rosa</h1>"
+      expect(response.status).to eq 200
+      expect(response.body).to include expected_response
+    end
+    xit "contains paragraph" do
+      response = get('/albums/2')
+      expected_response = "<p>
+      Release year: 1988
+      Artist: Pixies
+    </p>"
+    expect(response.status).to eq 200
+    expect(response.body).to include expected_response
+    end
+  end
+
   context 'POST to /album' do
     it 'returns 200 OK when it creates a new album' do
       # Assuming the post with id 1 exists.
