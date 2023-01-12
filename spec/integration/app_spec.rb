@@ -18,38 +18,41 @@ describe Application do
   context "GET /albums" do
     it "should return the list of albums" do
       response = get('/albums')
-      expected_response = "Doolittle, Surfer Rosa, Waterloo, Super Trouper, Bossanova, Lover, Folklore, I Put a Spell on You, Baltimore, Here Comes the Sun, Fodder on My Wings, Ring Ring"
       expect(response.status).to eq (200)
-      expect(response.body).to eq (expected_response)
+      expect(response.body).to include('<a href="/albums/2"/Surfer Rosa</a>')
+      expect(response.body).to include('<a href="/albums/3"/Waterloo</a>')
+      expect(response.body).to include('<a href="/albums/4"/Super Trooper</a>')
+      expect(response.body).to include('<a href="/albums/5"/Bossanova</a>')
     end
   end
 
-  context "GET /albums/1" do
+  context "GET /albums/:id" do
     it "contains a h1 title" do
       response = get('/albums/1')
-      expected_response = "<h1>Doolittle</h1>"
+      first_response = "<h1>Doolittle</h1>"
       expect(response.status).to eq 200
-      expect(response.body).to include expected_response
+      # expect(response.body).to include first_response
     end
-    xit "contains paragraph" do
+    it "contains paragraph" do
       response = get('/albums/1')
       expected_response = "<p>
       Release year: 1989
       Artist: Pixies
     </p>"
     expect(response.status).to eq 200
-    expect(response.body).to include expected_response
+    expect(response.body).to include('<h1>Doolittle</h1>')
+    expect(response.body).to include (expected_response)
     end
   end
 
   context "GET /albums/2" do
-    xit "contains a h1 title" do
+    it "contains a h1 title" do
       response = get('/albums/2')
       expected_response = "<h1>Surfer Rosa</h1>"
       expect(response.status).to eq 200
       expect(response.body).to include expected_response
     end
-    xit "contains paragraph" do
+    it "contains paragraph" do
       response = get('/albums/2')
       expected_response = "<p>
       Release year: 1988
@@ -60,11 +63,10 @@ describe Application do
     end
   end
 
-  context 'POST to /album' do
+  context 'POST to /albums' do
     it 'returns 200 OK when it creates a new album' do
-      # Assuming the post with id 1 exists.
       response = post(
-        '/album', 
+        '/albums', 
         title: 'Voyage', 
         release_year: '2022', 
         artist_id: '2'
@@ -99,6 +101,4 @@ describe Application do
       expect(response.body).to include('Blink 182')
     end
   end
-
-
 end
