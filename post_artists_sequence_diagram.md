@@ -11,6 +11,6 @@ sequenceDiagram
   R->>D: The ArtistRepository class creates a new artist and runs a SQL query to the database 'music_library' to store the new artist. The database 'music_library' stores the new artist
   D->>R: Returns response
   R->>A: The ArtistRepository class returns an Artist to the Sinatra Application Class.
-  A->>C: HTTP Response: the route block returns response (e.g. '200 0k') to the client.
+  A->>C: HTTP Response: the route block returns '200 0k' to the client.
 ```
 

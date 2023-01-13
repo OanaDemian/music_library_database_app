@@ -1,6 +1,7 @@
 require "spec_helper"
 require "rack/test"
 require_relative '../../app'
+
 def reset_tables
   albums_seed_sql = File.read('spec/seeds/albums_seeds.sql')
   connection = PG.connect({ host: '127.0.0.1', dbname: 'music_library_test' })
@@ -22,95 +23,73 @@ describe Application do
   # class so our tests work.
   let(:app) { Application.new }
 
-<<<<<<< HEAD
-  context "GET /albums" do
-    xit "should return the list of albums" do
-      response = get('/albums')
-      expect(response.status).to eq (200)
-      expect(response.body).to include('<a href="/albums/2"/Surfer Rosa</a>')
-      expect(response.body).to include('<a href="/albums/3"/Waterloo</a>')
-      expect(response.body).to include('<a href="/albums/4"/Super Trooper</a>')
-      expect(response.body).to include('<a href="/albums/5"/Bossanova</a>')
+  context "GET /artists/1" do
+    it "contains a h1 title" do
+      response = get('artists/1')
+      expect(response.status).to eq 200
+      expect(response.body).to include("<h1>Pixies</h1>")
+    end
+
+    it "contains a p tag" do
+      response = get('/artists/1')
+      expect(response.body).to include('<p>Rock</p>')
     end
   end
-=======
-  # context "GET /album" do
-  #   it "tests href links" do
-  #     response = get('/album')
-  #     expect(response.status).to eq (200)
-  #     expect(response.body).to include('href="/album/2"')
-  #     expect(response.body).to include('href="/album/3"')
-  #     expect(response.body).to include('href="/album/4"')
-  #     expect(response.body).to include('href="/album/5"')
-  #   end
-  #   it "Tests Content" do
-  #     response = get('/albums')
-  #     expect(response.body).to include('Surfer Rosa')
-  #     expect(response.body).to include('Waterloo')
-  #     expect(response.body).to include('Super Trouper')
-  #     expect(response.body).to include('Bossanova')
-  #   end
-  # end
->>>>>>> bc9b6ec1dea297b8ffccfe64ce916dc94c8af386
 
   context "GET /album/1" do
     it "contains a h1 title" do
-      response = get('/album/1')
+      response = get('/albums/1')
       expect(response.status).to eq 200
       first_response = "<h1>Doolittle</h1>"
       expect(response.body).to include first_response
     end
     it "checks p tag" do
-      response = get('/album/1')
+      response = get('/albums/1')
       expect(response.status).to eq 200
       expect(response.body).to include('<p>')
       expect(response.body).to include('</p>')
     end
     it "checks h1 tag" do
-      response = get('/album/1')
+      response = get('/albums/1')
       expect(response.status).to eq 200
       expect(response.body).to include('<h1>')
       expect(response.body).to include('</h1>')
     end
     it "Checks content" do
-      response = get('/album/1')
+      response = get('/albums/1')
       expect(response.status).to eq 200
       expect(response.body).to include('1989')
       expect(response.body).to include('Pixies')
       expect(response.body).to include('Doolittle')
     end
-
-
     end
 
   context "GET /album/2" do
     it "contains a h1 title" do
-      response = get('/album/2')
+      response = get('/albums/2')
       expect(response.status).to eq 200
       first_response = "<h1>Surfer Rosa</h1>"
       expect(response.body).to include first_response
     end
     it "checks p tag" do
-      response = get('/album/2')
+      response = get('/albums/2')
       expect(response.status).to eq 200
       expect(response.body).to include('<p>')
       expect(response.body).to include('</p>')
     end
     it "checks h1 tag" do
-      response = get('/album/2')
+      response = get('/albums/2')
       expect(response.status).to eq 200
       expect(response.body).to include('<h1>')
       expect(response.body).to include('</h1>')
     end
     it "Checks content" do
-      response = get('/album/2')
+      response = get('/albums/2')
       expect(response.status).to eq 200
       expect(response.body).to include('1988')
       expect(response.body).to include('Pixies')
       expect(response.body).to include('Surfer Rosa')
     end
-
-
   end
 
   context 'POST to /albums' do
@@ -133,11 +112,20 @@ describe Application do
   end
 
   context 'GET /artists' do
-    it 'should return a list of artists' do
-      response = get('artists')
-      expected_response = 'Pixies, ABBA, Taylor Swift, Nina Simone'
-      expect(response.status).to eq (200)
-      expect(response.body).to eq expected_response
+    it "should return a list of artists" do
+      response = get('/artists')
+      expect(response.status).to eq 200
+      expect(response.body).to include('Pixies')
+      expect(response.body).to include('Nina Simone')
+      expect(response.body).to include('ABBA')
+      expect(response.body).to include('Taylor Swift')
+    end
+    it "checks <a> tag" do
+      response = get('/artists')
+      expect(response.status).to eq 200
+      expect(response.body).to include('<a href="/artists/')
+      expect(response.body).to include('</a>')
+      expect(response.body).to include('<br>')
     end
   end
 
